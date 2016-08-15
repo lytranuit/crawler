@@ -11,6 +11,7 @@ var c = new Crawler({
         console.log("Finish : " + result.uri);
     }
 });
+
 crawler_ChapMoi_F1();
 crawler_ChapMoi_F2();
 function crawler_ChapMoi_F2() {
