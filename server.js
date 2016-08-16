@@ -17,7 +17,9 @@ var c = new Crawler({
 
 crawler_ChapMoi_F1();
 crawler_ChapMoi_F2();
-//crawler_ChapMoi_Kingdom();
+crawler_ChapMoi_Kingdom();
+crawler_ChapMoi_toriko();
+crawler_ChapMoi_Taydu();
 function crawler_ChapMoi_F2() {
     if (typeof data.NTGHF2 == "undefined" || data.NTGHF2 == null) {
         var chap = 0;
@@ -32,7 +34,7 @@ function crawler_ChapMoi_F2() {
                 var new_chap = parseFloat(text.match(/-*[0-9]+/));
                 var href = $(".content .row_chap:first-child a").attr("href");
                 if (new_chap > chap) {
-                    console.log("Chap mới Người trong giang hồ F2:" + new_chap);
+                    console.log(text);
                     open(href);
                     chap = new_chap;
                     data.NTGHF2 = chap;
@@ -62,7 +64,7 @@ function crawler_ChapMoi_F1() {
                     href = page + href;
                 }
                 if (new_chap > chap) {
-                    console.log("Chap mới Người trong giang hồ Comic:" + new_chap);
+                    console.log(text);
                     open(href);
                     chap = new_chap;
                     data.NTGHF1 = chap;
@@ -73,26 +75,90 @@ function crawler_ChapMoi_F1() {
     }, 5000)
 }
 function crawler_ChapMoi_Kingdom() {
-    var chap = 0;
-    var page = "http://xomtruyen.com";
+    if (typeof data.Kingdom == "undefined" || data.Kingdom == null) {
+        var chap = 0;
+    } else {
+        var chap = data.Kingdom;
+    }
+    var page = "http://truyentranhmoi.com";
     var time = setInterval(function () {
         c.queue({
             uri: page + "/kingdom-vuong-gia-thien-ha/",
             callback: function (error, result, $) {
-                console.log($(".jspPane").html());
-                return;
-                var text = $(".jspPane a").eq(0).text()
+                var text = $(".select-chapter option:last-child").text();
                 var new_chap = parseFloat(text.match(/-*[0-9]+/));
-                var href = $(".jspPane a").eq(0).attr("href");
+                var href = $(".select-chapter option:last-child").attr("value");
                 if (href.indexOf("http://") != -1 || href.indexOf("https://") != -1) {
 
                 } else {
                     href = page + href;
                 }
                 if (new_chap > chap) {
-                    console.log("Chap mới King DOM:" + new_chap);
+                    console.log(text);
                     open(href);
                     chap = new_chap;
+                    data.Kingdom = chap;
+                    save_data();
+                }
+            }
+        });
+    }, 5000)
+}
+function crawler_ChapMoi_toriko() {
+    if (typeof data.toriko == "undefined" || data.toriko == null) {
+        var chap = 0;
+    } else {
+        var chap = data.toriko;
+    }
+    var page = "http://comicvn.net";
+    var time = setInterval(function () {
+        c.queue({
+            uri: page + "/truyen-tranh/toriko/18",
+            callback: function (error, result, $) {
+                var text = $(".list-chapter td a").eq(0).text()
+                var new_chap = parseFloat(text.match(/-*[0-9]+/));
+                var href = $(".list-chapter td a").eq(0).attr("href");
+                if (href.indexOf("http://") != -1 || href.indexOf("https://") != -1) {
+
+                } else {
+                    href = page + href;
+                }
+                if (new_chap > chap) {
+                    console.log(text);
+                    open(href);
+                    chap = new_chap;
+                    data.toriko = chap;
+                    save_data();
+                }
+            }
+        });
+    }, 5000)
+}
+function crawler_ChapMoi_Taydu() {
+    if (typeof data.Taydu == "undefined" || data.Taydu == null) {
+        var chap = 0;
+    } else {
+        var chap = data.Taydu;
+    }
+    var page = "http://comicvn.net";
+    var time = setInterval(function () {
+        c.queue({
+            uri: page + "/truyen-tranh/tay-du/11951",
+            callback: function (error, result, $) {
+                var text = $(".list-chapter td a").eq(0).text();
+                var new_chap = parseFloat(text.match(/-*[0-9]+/));
+                var href = $(".list-chapter td a").eq(0).attr("href");
+                if (href.indexOf("http://") != -1 || href.indexOf("https://") != -1) {
+
+                } else {
+                    href = page + href;
+                }
+                if (new_chap > chap) {
+                    console.log(text);
+                    open(href);
+                    chap = new_chap;
+                    data.Taydu = chap;
+                    save_data();
                 }
             }
         });
