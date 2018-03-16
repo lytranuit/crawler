@@ -15,10 +15,10 @@ var c = new Crawler({
     }
 });
 
-crawler_ChapMoi_F1();
-crawler_ChapMoi_F2();
-crawler_ChapMoi_Kingdom();
-crawler_ChapMoi_toriko();
+//crawler_ChapMoi_F1();
+//crawler_ChapMoi_F2();
+//crawler_ChapMoi_Kingdom();
+//crawler_ChapMoi_toriko();
 crawler_ChapMoi_Taydu();
 function crawler_ChapMoi_F2() {
     if (typeof data.NTGHF2 == "undefined" || data.NTGHF2 == null) {
@@ -85,6 +85,9 @@ function crawler_ChapMoi_Kingdom() {
         c.queue({
             uri: page + "/kingdom-vuong-gia-thien-ha/",
             callback: function (error, result, $) {
+//                console.log(result);
+//                console.log($);
+                console.log($(".select-chapter option:last-child"));
                 var text = $(".select-chapter option:last-child").text();
                 var new_chap = parseFloat(text.match(/-*[0-9]+/));
                 var href = $(".select-chapter option:last-child").attr("value");
@@ -144,10 +147,13 @@ function crawler_ChapMoi_Taydu() {
     var time = setInterval(function () {
         c.queue({
             uri: page + "/truyen-tranh/tay-du/11951",
-            callback: function (error, result, $) {
-                var text = $(".list-chapter td a").eq(0).text();
+            callback: function (error, res, done) {
+                var $ = res.$;
+//                console.log($(".manga-info-main"));
+//                return false;
+                var text = $(".manga-chapter .u84ho3 a").eq(0).text();
                 var new_chap = parseFloat(text.match(/-*[0-9]+/));
-                var href = $(".list-chapter td a").eq(0).attr("href");
+                var href = $(".manga-chapter .u84ho3 a").eq(0).attr("href");
                 if (href.indexOf("http://") != -1 || href.indexOf("https://") != -1) {
 
                 } else {
