@@ -16,3 +16,6 @@ npm install jsonfile
 B3. Run server
 
 node server
+
+
+B4: Config APP.
