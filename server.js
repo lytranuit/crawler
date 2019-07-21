@@ -17,9 +17,10 @@ var c = new Crawler({
 
 //crawler_ChapMoi_F1();
 //crawler_ChapMoi_F2();
-//crawler_ChapMoi_Kingdom();
+crawler_ChapMoi_Kingdom();
 //crawler_ChapMoi_toriko();
-crawler_ChapMoi_Taydu();
+//crawler_ChapMoi_Taydu();
+crawler_ChapMoi_NTGH();
 function crawler_ChapMoi_F2() {
     if (typeof data.NTGHF2 == "undefined" || data.NTGHF2 == null) {
         var chap = 0;
@@ -80,17 +81,17 @@ function crawler_ChapMoi_Kingdom() {
     } else {
         var chap = data.Kingdom;
     }
-    var page = "http://truyentranhmoi.com";
+    var page = "https://truyenmoi.xyz";
     var time = setInterval(function () {
         c.queue({
-            uri: page + "/kingdom-vuong-gia-thien-ha/",
+            uri: page + "/doc-truyen-tranh-kingdom-vuong-gia-thien-ha-manga",
             callback: function (error, result, $) {
 //                console.log(result);
 //                console.log($);
                 console.log($(".select-chapter option:last-child"));
-                var text = $(".select-chapter option:last-child").text();
+                var text = $(".chapter-list a").eq(0).text()
                 var new_chap = parseFloat(text.match(/-*[0-9]+/));
-                var href = $(".select-chapter option:last-child").attr("value");
+                var href = $(".list-chapter td a").eq(0).attr("href");
                 if (href.indexOf("http://") != -1 || href.indexOf("https://") != -1) {
 
                 } else {
@@ -164,6 +165,39 @@ function crawler_ChapMoi_Taydu() {
                     open(href);
                     chap = new_chap;
                     data.Taydu = chap;
+                    save_data();
+                }
+            }
+        });
+    }, 5000)
+}
+function crawler_ChapMoi_NTGH() {
+    if (typeof data.NTGH == "undefined" || data.NTGH == null) {
+        var chap = 0;
+    } else {
+        var chap = data.NTGH;
+    }
+    var page = "https://beeng.net";
+    var time = setInterval(function () {
+        c.queue({
+            uri: page + "/truyen-tranh-online/nguoi-trong-giang-ho-162",
+            callback: function (error, res, done) {
+                var $ = res.$;
+//                console.log($(".manga-info-main"));
+//                return false;
+                var text = $(".manga-chapter .u84ho3 a").eq(0).text();
+                var new_chap = parseFloat(text.match(/-*[0-9]+/));
+                var href = $(".manga-chapter .u84ho3 a").eq(0).attr("href");
+                if (href.indexOf("http://") != -1 || href.indexOf("https://") != -1) {
+
+                } else {
+                    href = page + href;
+                }
+                if (new_chap > chap) {
+                    console.log(text);
+                    open(href);
+                    chap = new_chap;
+                    data.NTGH = chap;
                     save_data();
                 }
             }
