@@ -8,6 +8,7 @@
   "dependencies": {
     "crawler": "^1.2.1",
     "jsonfile": "^5.0.0",
-    "open": "^6.4.0"
+    "open": "^6.4.0",
+    "request": "^2.88.0"
   }
 }
